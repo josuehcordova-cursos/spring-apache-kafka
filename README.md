@@ -6,3 +6,9 @@ También me ayuda mucho si puedes marcar el repositorio con una estrella en la p
 Enlace al canal: https://www.youtube.com/channel/UCTXForyROk00E6jiaNKSV1A
 
 Saludos!
+
+### Referencias
+
+* [Ejemplo de Configuración](https://medium.com/@jamshidsadiqi25/kafka-configuration-spring-boot-6d5cd22f373d)
+* [Conceptos Generales](https://www.enmilocalfunciona.io/aprendiendo-apache-kafka-parte-1/)
+* [Explicación de propiedades de configuración](https://www.baeldung.com/kafka-docker-connection)
