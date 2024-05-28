@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.KafkaListener;
 
+import com.kafka.consumer.model.User;
+
 @Configuration
 public class KafkaConsumerListener {
 
@@ -14,4 +16,11 @@ public class KafkaConsumerListener {
     public void listener(String message){
         LOGGER.info("Received message: " + message);
     }
+
+    @KafkaListener(topics = "user-log", 
+			groupId = "group-id",
+			containerFactory = "userKafkaListenerContainerFactory")
+	public void consume(User user) {
+		LOGGER.info(String.format("User created -> %s", user));
+	}
 }

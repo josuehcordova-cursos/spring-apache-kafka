@@ -9,6 +9,11 @@ import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
+
+import com.kafka.consumer.model.User;
+
+import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.HashMap;
@@ -40,4 +45,25 @@ public class KafkaConsumerConfig {
         factory.setConsumerFactory(consumerFactory);
         return factory;
     }
+
+    // 2. Consume user objects from Kafka
+
+	public ConsumerFactory<String, User> userConsumerFactory() {
+		Map<String, Object> props = new HashMap<>();
+		props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+		props.put(ConsumerConfig.GROUP_ID_CONFIG, "group-id");
+		props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+		return new DefaultKafkaConsumerFactory<>(props, 
+				new StringDeserializer(), 
+				new JsonDeserializer<>(User.class));
+	}
+
+	@Bean
+	public ConcurrentKafkaListenerContainerFactory<String, User> 
+									userKafkaListenerContainerFactory() {
+		ConcurrentKafkaListenerContainerFactory<String, User> factory 
+			= new ConcurrentKafkaListenerContainerFactory<>();
+		factory.setConsumerFactory(userConsumerFactory());
+		return factory;
+	}
 }

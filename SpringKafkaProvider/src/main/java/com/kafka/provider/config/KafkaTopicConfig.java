@@ -29,4 +29,12 @@ public class KafkaTopicConfig {
 
         return newTopic;
     }
+
+    @Bean
+	public NewTopic userTopic() {
+		return TopicBuilder.name("user-log")
+			      .partitions(1)
+			      .replicas(1)
+			      .build();
+	}
 }

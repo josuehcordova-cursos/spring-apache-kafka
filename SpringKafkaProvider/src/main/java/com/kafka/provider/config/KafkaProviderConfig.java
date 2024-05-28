@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.support.serializer.JsonSerializer;
+
+import com.kafka.provider.model.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +21,7 @@ public class KafkaProviderConfig {
     @Value("${spring.kafka.bootstrapServers}")
     private String bootstrapServers;
 
+    //1. Send string to Kafka
     public Map<String, Object> producerConfig(){
         Map<String, Object> properties = new HashMap<>();
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -34,5 +38,20 @@ public class KafkaProviderConfig {
     @Bean
     public KafkaTemplate<String, String> kafkaTemplate(ProducerFactory<String, String> producerFactory){
         return new KafkaTemplate<>(producerFactory);
+    }
+
+    //2. Send User objects to Kafka
+	@Bean
+    public ProducerFactory<String, User> userProducerFactory() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return new DefaultKafkaProducerFactory<>(configProps);
+    }
+
+    @Bean
+    public KafkaTemplate<String, User> userKafkaTemplate() {
+        return new KafkaTemplate<>(userProducerFactory());
     }
 }
