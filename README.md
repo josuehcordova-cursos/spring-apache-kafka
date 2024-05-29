@@ -13,3 +13,4 @@ Saludos!
 * [Conceptos Generales](https://www.enmilocalfunciona.io/aprendiendo-apache-kafka-parte-1/)
 * [Explicación de propiedades de configuración](https://www.baeldung.com/kafka-docker-connection)
 * [Otros ejemplos de Kafka](https://github.com/lokeshgupta1981/Kafka-Tutorials/tree/master)
+* [DDD y Kafka](https://github.com/DomingoAlvarez99/ddd-example/tree/main)
